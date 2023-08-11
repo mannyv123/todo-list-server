@@ -1,4 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+
+interface TaskDocument extends Document {
+    task: string;
+    completed: boolean;
+}
 
 const taskSchema = new mongoose.Schema(
     {
@@ -14,6 +19,6 @@ const taskSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Task = mongoose.model("Task", taskSchema);
+const Task = mongoose.model<TaskDocument>("Task", taskSchema);
 
 export default Task;
