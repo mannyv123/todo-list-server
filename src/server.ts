@@ -27,4 +27,4 @@ async function startServer() {
 
 startServer();
 
-app.use("/tasks", tasksRouter);
+app.use("/api/tasks", tasksRouter);

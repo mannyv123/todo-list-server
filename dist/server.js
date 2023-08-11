@@ -61,4 +61,4 @@ function startServer() {
     });
 }
 startServer();
-app.use("/tasks", tasksRouter_1.default);
+app.use("/api/tasks", tasksRouter_1.default);
