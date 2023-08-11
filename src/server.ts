@@ -2,11 +2,15 @@ import express, { Express } from "express";
 import mongoose from "mongoose";
 import tasksRouter from "./routes/tasksRouter";
 import * as dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 const PORT = process.env.PORT || 3001;
 const MONGO = process.env.MONGO;
 const app: Express = express();
+
+app.use(express.json());
+app.use(cors());
 
 async function startServer() {
     if (!MONGO) {

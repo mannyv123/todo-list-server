@@ -39,10 +39,13 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const tasksRouter_1 = __importDefault(require("./routes/tasksRouter"));
 const dotenv = __importStar(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 dotenv.config();
 const PORT = process.env.PORT || 3001;
 const MONGO = process.env.MONGO;
 const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         if (!MONGO) {
