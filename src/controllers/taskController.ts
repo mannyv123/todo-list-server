@@ -45,3 +45,30 @@ export const deleteAllTasks = async (_req: Request, res: Response) => {
         res.status(500).json({ message: `Error deleting tasks: ${err}` });
     }
 };
+
+//Update completion status of a single task
+export const updateTask = async (req: Request, res: Response) => {
+    const taskId = req.params.id;
+
+    if (!taskId) {
+        return res.status(400).json({ message: "Task ID not provided" });
+    }
+
+    try {
+        const task = await Task.findById(taskId);
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { $set: { completed: !task.completed } }, //toggle the "completed" field
+            { new: true } //return the updated document
+        );
+
+        res.status(200).json(updatedTask);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error updating task: ${err}` });
+    }
+};
