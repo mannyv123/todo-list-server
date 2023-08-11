@@ -5,13 +5,16 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 
 dotenv.config();
-const PORT = process.env.PORT || 3001;
-const MONGO = process.env.MONGO;
 const app: Express = express();
 
+const PORT = process.env.PORT || 3001;
+const MONGO = process.env.MONGO;
+
+//Middleware
 app.use(express.json());
 app.use(cors());
 
+//Function to connect to DB and start server
 async function startServer() {
     if (!MONGO) {
         throw new Error("No MongoDB connection url provided.");
@@ -31,4 +34,5 @@ async function startServer() {
 
 startServer();
 
+//Routes
 app.use("/api/tasks", tasksRouter);

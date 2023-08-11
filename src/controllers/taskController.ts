@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import Task from "../models/Task";
 
+interface TaskRequest {
+    task: string;
+}
+
 //Get all tasks
 export const getTasks = async (_req: Request, res: Response) => {
     try {
@@ -14,7 +18,7 @@ export const getTasks = async (_req: Request, res: Response) => {
 
 //Create a single new task
 export const createTask = async (req: Request, res: Response) => {
-    const { task } = req.body;
+    const { task } = req.body as TaskRequest;
 
     if (!task) {
         return res.status(400).json({ message: "Missing task information" });
@@ -39,7 +43,7 @@ export const createTask = async (req: Request, res: Response) => {
 export const deleteAllTasks = async (_req: Request, res: Response) => {
     try {
         const result = await Task.deleteMany();
-        res.json({ message: `Successfully deleted ${result.deletedCount} tasks(s)` });
+        res.json({ message: `Successfully deleted ${result.deletedCount} task(s)` });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: `Error deleting tasks: ${err}` });

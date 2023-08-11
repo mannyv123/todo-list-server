@@ -50,7 +50,7 @@ exports.createTask = createTask;
 const deleteAllTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield Task_1.default.deleteMany();
-        res.json({ message: `Successfully deleted ${result.deletedCount} tasks(s)` });
+        res.json({ message: `Successfully deleted ${result.deletedCount} task(s)` });
     }
     catch (err) {
         console.log(err);
