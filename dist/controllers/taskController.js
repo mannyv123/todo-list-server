@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTasks = void 0;
+exports.createTask = exports.getTasks = void 0;
 const Task_1 = __importDefault(require("../models/Task"));
 const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -25,3 +25,22 @@ const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getTasks = getTasks;
+const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { task } = req.body;
+    if (!task) {
+        return res.status(400).json({ message: "Missing task information" });
+    }
+    try {
+        const newTask = new Task_1.default({
+            task,
+            completed: false,
+        });
+        yield newTask.save();
+        res.status(201).json({ message: `New task created: ${newTask}` });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error creating new task: ${err}` });
+    }
+});
+exports.createTask = createTask;
