@@ -37,7 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const tasksRouter_1 = __importDefault(require("./tasksRouter"));
+const tasksRouter_1 = __importDefault(require("./routes/tasksRouter"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const PORT = process.env.PORT || 3001;

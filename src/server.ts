@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import mongoose from "mongoose";
-import tasksRouter from "./tasksRouter";
+import tasksRouter from "./routes/tasksRouter";
 import * as dotenv from "dotenv";
 
 dotenv.config();
