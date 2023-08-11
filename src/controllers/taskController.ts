@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import Task from "../models/Task";
 
-export const getTasks = async (req: Request, res: Response) => {
+//Get all tasks
+export const getTasks = async (_req: Request, res: Response) => {
     try {
         const tasks = await Task.find().sort({ task: "asc" });
         res.status(200).json(tasks);
@@ -11,6 +12,7 @@ export const getTasks = async (req: Request, res: Response) => {
     }
 };
 
+//Create a single new task
 export const createTask = async (req: Request, res: Response) => {
     const { task } = req.body;
 
@@ -30,5 +32,16 @@ export const createTask = async (req: Request, res: Response) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: `Error creating new task: ${err}` });
+    }
+};
+
+//Delete all tasks
+export const deleteAllTasks = async (_req: Request, res: Response) => {
+    try {
+        const result = await Task.deleteMany();
+        res.json({ message: `Successfully deleted ${result.deletedCount} tasks(s)` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error deleting tasks: ${err}` });
     }
 };

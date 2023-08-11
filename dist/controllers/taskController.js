@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTask = exports.getTasks = void 0;
+exports.deleteAllTasks = exports.createTask = exports.getTasks = void 0;
 const Task_1 = __importDefault(require("../models/Task"));
-const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+//Get all tasks
+const getTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const tasks = yield Task_1.default.find().sort({ task: "asc" });
         res.status(200).json(tasks);
@@ -25,6 +26,7 @@ const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getTasks = getTasks;
+//Create a single new task
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { task } = req.body;
     if (!task) {
@@ -44,3 +46,15 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createTask = createTask;
+//Delete all tasks
+const deleteAllTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield Task_1.default.deleteMany();
+        res.json({ message: `Successfully deleted ${result.deletedCount} tasks(s)` });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error deleting tasks: ${err}` });
+    }
+});
+exports.deleteAllTasks = deleteAllTasks;

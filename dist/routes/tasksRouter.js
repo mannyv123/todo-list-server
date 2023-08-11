@@ -31,4 +31,5 @@ const taskController = __importStar(require("../controllers/taskController"));
 const router = express_1.default.Router();
 router.get("/", taskController.getTasks);
 router.post("/", taskController.createTask);
+router.delete("/deleteAll", taskController.deleteAllTasks);
 exports.default = router;
