@@ -39,6 +39,23 @@ export const createTask = async (req: Request, res: Response) => {
     }
 };
 
+//Delete single task
+export const deleteSingleTask = async (req: Request, res: Response) => {
+    const taskId = req.params.id;
+
+    if (!taskId) {
+        return res.status(400).json({ message: "Task ID not provided" });
+    }
+
+    try {
+        const result = await Task.deleteOne({ _id: taskId });
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error deleting task: ${err}` });
+    }
+};
+
 //Delete all tasks
 export const deleteAllTasks = async (_req: Request, res: Response) => {
     try {
