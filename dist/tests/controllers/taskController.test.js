@@ -12,26 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const supertest_1 = __importDefault(require("supertest"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-const PORT = process.env.PORT || 3001;
-const MONGO = process.env.MONGO;
-//Function to connect to DB and start server
-function startServer() {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!MONGO) {
-            throw new Error("No MongoDB connection url provided.");
-        }
-        try {
-            yield mongoose_1.default.connect(MONGO);
-            console.log("Connected to MongoDB");
-            app_1.default.listen(PORT, () => {
-                console.log(`Express server listening on port: ${PORT}`);
-            });
-        }
-        catch (err) {
-            console.error(`Error connecting to MongoDB: ${err}`);
-        }
-    });
+const app_1 = __importDefault(require("../../app"));
+const MONGO_TEST = process.env.MONGO_TEST;
+if (!MONGO_TEST) {
+    throw new Error("No MongoDB test connection url provided.");
 }
-startServer();
+/* Connecting to the database before each test. */
+beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.connect(MONGO_TEST);
+}));
+/* Closing database connection after each test. */
+afterEach(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.connection.close();
+}));
+describe("Task Controller", () => {
+    it("should get all tasks", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app_1.default).get("/api/tasks/");
+        expect(res.statusCode).toBe(200);
+    }));
+});
