@@ -35,9 +35,20 @@ describe("Task Controller", () => {
 
     it("should update task completion", async () => {
         const allTasks = await request(app).get("/api/tasks/");
-        const res = await request(app).put(`/api/tasks/${allTasks.body[0]._id}`);
+        const taskId = allTasks.body[0]._id;
+        const res = await request(app).put(`/api/tasks/${taskId}`);
         expect(res.statusCode).toBe(200);
         expect(res.body.completed).toBe(true);
+    });
+
+    it("should delete a single task", async () => {
+        const newTask = await request(app).post("/api/tasks/").send({
+            task: "Task 100",
+        });
+        const taskId = newTask.body._id;
+        const res = await request(app).delete(`/api/tasks/${taskId}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.deletedCount).toBe(1);
     });
 
     it("should delete all tasks", async () => {
