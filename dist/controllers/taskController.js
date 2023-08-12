@@ -38,7 +38,7 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             completed: false,
         });
         yield newTask.save();
-        res.status(201).json({ message: `New task created: ${newTask}` });
+        res.status(201).json(newTask);
     }
     catch (err) {
         console.log(err);
@@ -50,7 +50,7 @@ exports.createTask = createTask;
 const deleteAllTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield Task_1.default.deleteMany();
-        res.json({ message: `Successfully deleted ${result.deletedCount} task(s)` });
+        res.status(200).json({ message: `Successfully deleted ${result.deletedCount} task(s)` });
     }
     catch (err) {
         console.log(err);

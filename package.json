@@ -8,7 +8,7 @@
         "start": "node dist/server.js",
         "predev": "npm run build",
         "dev": "concurrently \"npx tsc -w\" \"nodemon dist/server.js\"",
-        "test": "jest"
+        "test": "jest --testTimeout=6000"
     },
     "author": "",
     "license": "ISC",

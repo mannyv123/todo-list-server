@@ -28,8 +28,26 @@ afterEach(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
 }));
 describe("Task Controller", () => {
+    it("should create a new task", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app_1.default).post("/api/tasks/").send({
+            task: "Task 99",
+        });
+        expect(res.statusCode).toBe(201);
+        expect(res.body.task).toBe("Task 99");
+    }));
     it("should get all tasks", () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(app_1.default).get("/api/tasks/");
+        expect(res.statusCode).toBe(200);
+        expect(res.body.length).toBeGreaterThan(0);
+    }));
+    it("should update task completion", () => __awaiter(void 0, void 0, void 0, function* () {
+        const allTasks = yield (0, supertest_1.default)(app_1.default).get("/api/tasks/");
+        const res = yield (0, supertest_1.default)(app_1.default).put(`/api/tasks/${allTasks.body[0]._id}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.completed).toBe(true);
+    }));
+    it("should delete all tasks", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app_1.default).delete("/api/tasks/deleteAll");
         expect(res.statusCode).toBe(200);
     }));
 });

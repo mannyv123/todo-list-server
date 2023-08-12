@@ -19,8 +19,29 @@ afterEach(async () => {
 });
 
 describe("Task Controller", () => {
+    it("should create a new task", async () => {
+        const res = await request(app).post("/api/tasks/").send({
+            task: "Task 99",
+        });
+        expect(res.statusCode).toBe(201);
+        expect(res.body.task).toBe("Task 99");
+    });
+
     it("should get all tasks", async () => {
         const res = await request(app).get("/api/tasks/");
+        expect(res.statusCode).toBe(200);
+        expect(res.body.length).toBeGreaterThan(0);
+    });
+
+    it("should update task completion", async () => {
+        const allTasks = await request(app).get("/api/tasks/");
+        const res = await request(app).put(`/api/tasks/${allTasks.body[0]._id}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.completed).toBe(true);
+    });
+
+    it("should delete all tasks", async () => {
+        const res = await request(app).delete("/api/tasks/deleteAll");
         expect(res.statusCode).toBe(200);
     });
 });
