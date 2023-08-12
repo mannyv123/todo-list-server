@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTask = exports.deleteAllTasks = exports.createTask = exports.getTasks = void 0;
+exports.updateTask = exports.deleteAllTasks = exports.deleteSingleTask = exports.createTask = exports.getTasks = void 0;
 const Task_1 = __importDefault(require("../models/Task"));
 //Get all tasks
 const getTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,6 +46,22 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createTask = createTask;
+//Delete single task
+const deleteSingleTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const taskId = req.params.id;
+    if (!taskId) {
+        return res.status(400).json({ message: "Task ID not provided" });
+    }
+    try {
+        const result = yield Task_1.default.deleteOne({ _id: taskId });
+        res.status(200).json(result);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error deleting task: ${err}` });
+    }
+});
+exports.deleteSingleTask = deleteSingleTask;
 //Delete all tasks
 const deleteAllTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
