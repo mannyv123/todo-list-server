@@ -1,18 +1,8 @@
-import express, { Express } from "express";
 import mongoose from "mongoose";
-import tasksRouter from "./routes/tasksRouter";
-import * as dotenv from "dotenv";
-import cors from "cors";
-
-dotenv.config();
-const app: Express = express();
+import app from "./app";
 
 const PORT = process.env.PORT || 3001;
 const MONGO = process.env.MONGO;
-
-//Middleware
-app.use(express.json());
-app.use(cors());
 
 //Function to connect to DB and start server
 async function startServer() {
@@ -33,6 +23,3 @@ async function startServer() {
 }
 
 startServer();
-
-//Routes
-app.use("/api/tasks", tasksRouter);

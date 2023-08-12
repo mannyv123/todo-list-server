@@ -32,7 +32,7 @@ export const createTask = async (req: Request, res: Response) => {
 
         await newTask.save();
 
-        res.status(201).json({ message: `New task created: ${newTask}` });
+        res.status(201).json(newTask);
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: `Error creating new task: ${err}` });
@@ -43,7 +43,7 @@ export const createTask = async (req: Request, res: Response) => {
 export const deleteAllTasks = async (_req: Request, res: Response) => {
     try {
         const result = await Task.deleteMany();
-        res.json({ message: `Successfully deleted ${result.deletedCount} task(s)` });
+        res.status(200).json({ message: `Successfully deleted ${result.deletedCount} task(s)` });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: `Error deleting tasks: ${err}` });
