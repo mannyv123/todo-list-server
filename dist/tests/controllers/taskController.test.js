@@ -42,9 +42,19 @@ describe("Task Controller", () => {
     }));
     it("should update task completion", () => __awaiter(void 0, void 0, void 0, function* () {
         const allTasks = yield (0, supertest_1.default)(app_1.default).get("/api/tasks/");
-        const res = yield (0, supertest_1.default)(app_1.default).put(`/api/tasks/${allTasks.body[0]._id}`);
+        const taskId = allTasks.body[0]._id;
+        const res = yield (0, supertest_1.default)(app_1.default).put(`/api/tasks/${taskId}`);
         expect(res.statusCode).toBe(200);
         expect(res.body.completed).toBe(true);
+    }));
+    it("should delete a single task", () => __awaiter(void 0, void 0, void 0, function* () {
+        const newTask = yield (0, supertest_1.default)(app_1.default).post("/api/tasks/").send({
+            task: "Task 100",
+        });
+        const taskId = newTask.body._id;
+        const res = yield (0, supertest_1.default)(app_1.default).delete(`/api/tasks/${taskId}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.deletedCount).toBe(1);
     }));
     it("should delete all tasks", () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(app_1.default).delete("/api/tasks/deleteAll");
