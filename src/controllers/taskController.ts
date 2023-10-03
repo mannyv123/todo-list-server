@@ -93,3 +93,26 @@ export const updateTask = async (req: Request, res: Response) => {
         res.status(500).json({ message: `Error updating task: ${err}` });
     }
 };
+
+//Edit task content
+export const editTask = async (req: Request, res: Response) => {
+    const taskId = req.params.id;
+    const { task } = req.body as TaskRequest;
+
+    if (!taskId || !task) {
+        return res.status(400).json({ message: "Task ID/Description not provided" });
+    }
+
+    try {
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { $set: { task: task } }, //toggle the "completed" field
+            { new: true } //return the updated document
+        );
+
+        res.status(200).json(updatedTask);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error updating task: ${err}` });
+    }
+};

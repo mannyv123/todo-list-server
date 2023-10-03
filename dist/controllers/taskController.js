@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTask = exports.deleteAllTasks = exports.deleteSingleTask = exports.createTask = exports.getTasks = void 0;
+exports.editTask = exports.updateTask = exports.deleteAllTasks = exports.deleteSingleTask = exports.createTask = exports.getTasks = void 0;
 const Task_1 = __importDefault(require("../models/Task"));
 //Get all tasks
 const getTasks = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -96,3 +96,22 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateTask = updateTask;
+//Edit task content
+const editTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const taskId = req.params.id;
+    const { task } = req.body;
+    if (!taskId || !task) {
+        return res.status(400).json({ message: "Task ID/Description not provided" });
+    }
+    try {
+        const updatedTask = yield Task_1.default.findByIdAndUpdate(taskId, { $set: { task: task } }, //toggle the "completed" field
+        { new: true } //return the updated document
+        );
+        res.status(200).json(updatedTask);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ message: `Error updating task: ${err}` });
+    }
+});
+exports.editTask = editTask;
