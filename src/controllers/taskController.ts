@@ -106,7 +106,7 @@ export const editTask = async (req: Request, res: Response) => {
     try {
         const updatedTask = await Task.findByIdAndUpdate(
             taskId,
-            { $set: { task: task } }, //toggle the "completed" field
+            { $set: { task: task } }, //update task description
             { new: true } //return the updated document
         );
 

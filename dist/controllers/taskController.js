@@ -104,7 +104,7 @@ const editTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(400).json({ message: "Task ID/Description not provided" });
     }
     try {
-        const updatedTask = yield Task_1.default.findByIdAndUpdate(taskId, { $set: { task: task } }, //toggle the "completed" field
+        const updatedTask = yield Task_1.default.findByIdAndUpdate(taskId, { $set: { task: task } }, //update task description
         { new: true } //return the updated document
         );
         res.status(200).json(updatedTask);
